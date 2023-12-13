@@ -1,0 +1,162 @@
+<form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+    <div>
+      <label for="firstName">Имя:</label>
+      <input id="firstName" formControlName="firstName" placeholder="Имя" />
+      <div
+        *ngIf="
+          bookingForm.get('firstName')?.invalid &&
+          (bookingForm.get('firstName')?.dirty ||
+            bookingForm.get('firstName')?.touched)
+        "
+        class="error-message"
+      >
+        <ng-container *ngIf="bookingForm.get('firstName')?.hasError('required')"
+          >Имя обязательно для заполнения.</ng-container
+        >
+        <ng-container *ngIf="bookingForm.get('firstName')?.hasError('pattern')"
+          >Имя может содержать только буквы.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="lastName">Фамилия:</label>
+      <input id="lastName" formControlName="lastName" placeholder="Фамилия" />
+      <div
+        *ngIf="
+          bookingForm.get('lastName')?.invalid &&
+          (bookingForm.get('lastName')?.dirty ||
+            bookingForm.get('lastName')?.touched)
+        "
+        class="error-message"
+      >
+        <ng-container *ngIf="bookingForm.get('lastName')?.hasError('required')"
+          >Фамилия обязательна для заполнения.</ng-container
+        >
+        <ng-container *ngIf="bookingForm.get('lastName')?.hasError('pattern')"
+          >Фамилия может содержать только буквы.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="patronymicName">Отчество:</label>
+      <input
+        id="patronymicName"
+        formControlName="patronymicName"
+        placeholder="Отчество"
+      />
+      <div
+        *ngIf="
+          bookingForm.get('patronymicName')?.invalid &&
+          bookingForm.get('patronymicName')?.dirty
+        "
+        class="error-message"
+      >
+        <ng-container
+          *ngIf="bookingForm.get('patronymicName')?.hasError('pattern')"
+          >Отчество может содержать только буквы.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="birthday">Дата рождения:</label>
+      <input id="birthday" type="date" formControlName="birthday" />
+      <div
+        *ngIf="
+          bookingForm.get('birthday')?.invalid &&
+          (bookingForm.get('birthday')?.dirty ||
+            bookingForm.get('birthday')?.touched)
+        "
+        class="error-message"
+      >
+        <ng-container *ngIf="bookingForm.get('birthday')?.hasError('required')"
+          >Дата рождения обязательна для заполнения.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="roomType">Тип номера:</label>
+      <select id="roomType" formControlName="roomTypeId">
+        <option *ngFor="let type of roomTypes" [value]="type.id">
+          {{ type.name }}
+        </option>
+      </select>
+    </div>
+  
+    <div>
+      <label for="countOfGuests">Количество гостей:</label>
+      <input
+        id="countOfGuests"
+        type="number"
+        formControlName="countOfGuests"
+        min="0"
+        max="10"
+      />
+  
+      <div
+        *ngIf="
+          bookingForm.get('countOfGuests')?.invalid &&
+          (bookingForm.get('countOfGuests')?.dirty ||
+            bookingForm.get('countOfGuests')?.touched) &&
+          !(bookingForm.get('roomTypeId')?.value === null)
+        "
+        class="error-message"
+      >
+        <ng-container
+          *ngIf="bookingForm.get('countOfGuests')?.hasError('required')"
+          >Количество гостей обязательно для заполнения.</ng-container
+        >
+        <ng-container *ngIf="bookingForm.get('countOfGuests')?.hasError('min')"
+          >Количество гостей должно быть больше 0.</ng-container
+        >
+        <ng-container *ngIf="bookingForm.get('countOfGuests')?.hasError('max')"
+          >Максимальное количество гостей: .</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="startDate">Дата заезда:</label>
+      <input id="startDate" type="date" formControlName="startDate" />
+      <div
+        *ngIf="
+          bookingForm.get('startDate')?.invalid &&
+          (bookingForm.get('startDate')?.dirty ||
+            bookingForm.get('startDate')?.touched)
+        "
+        class="error-message"
+      >
+        <ng-container *ngIf="bookingForm.get('startDate')?.hasError('required')"
+          >Дата заезда обязательна для заполнения.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="endDate">Дата выезда:</label>
+      <input id="endDate" type="date" formControlName="endDate" />
+      <div
+        *ngIf="
+          bookingForm.get('endDate')?.invalid &&
+          (bookingForm.get('endDate')?.dirty ||
+            bookingForm.get('endDate')?.touched)
+        "
+        class="error-message"
+      >
+        <ng-container *ngIf="bookingForm.get('endDate')?.hasError('required')"
+          >Дата выезда обязательна для заполнения.</ng-container
+        >
+      </div>
+    </div>
+  
+    <div>
+      <label for="withAnimal" >Проживание с животным:</label>
+      <input id="withAnimal" type="checkbox" formControlName="withAnimal" [attr.disabled]="bookingForm.get('roomTypeId')?.value === '4' ? true : null" />
+    </div>
+  
+    <button type="submit">Забронировать</button>
+  </form>
+  
